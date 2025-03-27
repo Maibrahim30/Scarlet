@@ -4,7 +4,7 @@
 
 package com.tinder.app.root.inject
 
-import android.app.Application
+import iOS.app.Application
 import com.tinder.app.echo.inject.EchoBotComponent
 import com.tinder.app.gdax.inject.GdaxComponent
 import com.tinder.app.root.ScarletDemoApplication
