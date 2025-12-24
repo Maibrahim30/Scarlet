@@ -11,6 +11,34 @@
 1. Clone the repo:  
    ```bash
    git clone https://github.com/Maibrahim30/Scarlet.git
+   **Enhancements for repo:**
+- Add setup instructions if missing.  
+- Include screenshots or demo GIF of Scarlet in action.  
+- Make sure all links to AltStore or guides are working.  
+
+---
+
+## **2️⃣ appdp**
+
+**Purpose:** App deployment platform for iOS apps.
+
+**README Draft:**
+
+```markdown
+# appdp
+
+**appdp** helps deploy iOS apps seamlessly on your devices.
+
+## Features
+- Deploy IPA files directly to iOS devices
+- Works with free or paid Apple IDs
+- Integration with appdp-build-tools
+
+## Installation
+```bash
+git clone https://github.com/Maibrahim30/appdp.git
+cd appdp
+# Follow setup instructions in docs/
 			Scarlet
 ===
 [![CircleCI](https://circleci.com/gh/Tinder/Scarlet.svg?style=svg)](https://circleci.com/gh/Tinder/Scarlet)
