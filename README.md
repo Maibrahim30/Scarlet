@@ -1,4 +1,17 @@
-Scarlet
+# Scarlet
+
+**Scarlet** is a powerful iOS tool for managing and sideloading apps without a full Apple Developer account.
+
+## Features
+- Install apps without jailbreak
+- Manage sideloaded apps easily
+- Integrates with AltStore for app refresh
+
+## Installation
+1. Clone the repo:  
+   ```bash
+   git clone https://github.com/Maibrahim30/Scarlet.git
+			Scarlet
 ===
 [![CircleCI](https://circleci.com/gh/Tinder/Scarlet.svg?style=svg)](https://circleci.com/gh/Tinder/Scarlet)
 
