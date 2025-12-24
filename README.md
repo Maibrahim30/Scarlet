@@ -1,3 +1,5 @@
+git clone https://github.com/Maibrahim30/Scarlet.git
+# Run Scarlet
 # Scarlet
 
 **Scarlet** is a powerful iOS tool for managing and sideloading apps without a full Apple Developer account.
