@@ -11,7 +11,9 @@
 1. Clone the repo:  
    ```bash
    git clone https://github.com/Maibrahim30/Scarlet.git
-   **Enhancements for repo:**
+   # Run Scarlet
+./scarlet
+**Enhancements for repo:**
 - Add setup instructions if missing.  
 - Include screenshots or demo GIF of Scarlet in action.  
 - Make sure all links to AltStore or guides are working.  
@@ -39,159 +41,130 @@
 git clone https://github.com/Maibrahim30/appdp.git
 cd appdp
 # Follow setup instructions in docs/
-			Scarlet
-===
-[![CircleCI](https://circleci.com/gh/Tinder/Scarlet.svg?style=svg)](https://circleci.com/gh/Tinder/Scarlet)
+# Example command to deploy an app
+appdp deploy MyApp.ipa
+**Enhancements:**
+- Check that all deployment scripts work.  
+- Ensure any links to app certificates or servers are correct.  
 
-A Retrofit inspired WebSocket client for Kotlin, Java, and Android.
-
-Update
 ---
-We are working on a new version of Scarlet that supports other persistent connection protocols: ServerSentEvent, Socket IO, STOMP, and MQTT. It can be found on the [`0.2.x`](https://github.com/Tinder/Scarlet/tree/0.2.x) branch.
 
+## **3️⃣ appdp-build-tools**
 
-Tutorial
+**Purpose:** Build and package apps for deployment with appdp.
+
+**README Draft:**
+
+```markdown
+# appdp-build-tools
+
+**appdp-build-tools** provides scripts and utilities to build, sign, and package iOS apps for deployment.
+
+## Features
+- Build IPA files from Xcode projects
+- Re-sign apps for sideloading
+- Integrates with appdp and iReSign
+
+## Installation
+```bash
+git clone https://github.com/Maibrahim30/appdp-build-tools.git
+cd appdp-build-tools
+# Build and sign an app
+./build-tools build MyApp.xcodeproj
+**Enhancements:**
+- Ensure build scripts have usage examples.  
+- Add dependency list (Xcode version, Python, etc.).  
+
 ---
-- [Taming WebSocket with Scarlet][tutorial]
-- [A talk][slides] at [Conference for Kotliners][kotliners]
 
-Usage
+## **4️⃣ AltStore**
+
+**Purpose:** iOS sideloading platform without jailbreak.
+
+**README Draft:**
+
+```markdown
+# AltStore Integration
+
+**AltStore** allows installing apps on iOS without a jailbreak using your Apple ID.
+
+## Features
+- Sideload IPA files easily
+- Refresh apps automatically
+- Works on macOS and Windows
+
+## Setup
+1. Download AltServer from [AltStore official site](https://altstore.io/)  
+2. Follow instructions to install AltStore on your device
+
+## Usage
+- Install IPA via AltStore app
+- Use the refresh feature to renew certificates
+
+## License
+MIT License
+# pho-app-attest-validator
+
+**pho-app-attest-validator** validates iOS apps installed via sideload or other methods using Apple’s App Attest framework.
+
+## Features
+- Verifies app integrity
+- Compatible with iOS App Attest API
+- Can be used with AltStore or other sideloading tools
+
+## Setup
+```bash
+git clone https://github.com/Maibrahim30/pho-app-attest-validator.git
+cd pho-app-attest-validator
+# Follow server setup instructions in docs/
+**Enhancements:**
+- Include example request and response.  
+- Add server prerequisites (Node.js, Python, etc.).  
+
 ---
-In this example, we read the realtime Bitcoin price from [Gdax WebSocket Feed][gdax-websocket-feed].
-For more information, please check out the [demo app][demo-app].
 
-Declare a WebSocket client using an interface:
+## **6️⃣ iReSign**
 
-~~~ kotlin
-interface GdaxService {
-	@Receive
-	fun observeWebSocketEvent(): Flowable<WebSocket.Event>
-	@Send
-	fun sendSubscribe(subscribe: Subscribe)
-	@Receive
- 	fun observeTicker(): Flowable<Ticker>
-}
-~~~
+**Purpose:** Re-sign iOS apps (.ipa) for deployment.
 
-Use Scarlet to create an implementation:
+**README Draft:**
 
-~~~ kotlin
-val scarletInstance = Scarlet.Builder()
-    .webSocketFactory(okHttpClient.newWebSocketFactory("wss://ws-feed.gdax.com"))
-    .addMessageAdapterFactory(MoshiMessageAdapter.Factory())
-    .addStreamAdapterFactory(RxJava2StreamAdapterFactory())
-    .build()
+```markdown
+# iReSign
 
-val gdaxService = scarletInstance.create<GdaxService>()
-~~~
+**iReSign** is a GUI tool to re-sign iOS apps with your certificate for testing or sideloading.
 
-Send a `Subscribe` message upon connection open and the server will start streaming tickers which contain the latest price.
+## Features
+- Re-sign IPA files
+- Supports multiple certificates
+- Works on macOS
 
+## Installation
+1. Clone the repo:
+```bash
+git clone https://github.com/Maibrahim30/iReSign.git
+**Enhancements:**
+- Add screenshots of the GUI.  
+- Provide example workflow with AltStore.  
 
-~~~ kotlin
-val BITCOIN_TICKER_SUBSCRIBE_MESSAGE = Subscribe(
-    productIds = listOf("BTC-USD"),
-    channels = listOf("ticker")
-)
-
-gdaxService.observeWebSocketEvent()
-    .filter { it is WebSocket.Event.OnConnectionOpened<*> }
-    .subscribe({
-        gdaxService.sendSubscribe(BITCOIN_TICKER_SUBSCRIBE_MESSAGE)
-    })
-
-gdaxService.observeTicker()
-    .subscribe({ ticker ->
-        Log.d("Bitcoin price is ${ticker.price} at ${ticker.time}")
-    })
-~~~
-
-###  Android
-Scarlet is driven by a [StateMachine][state-machine].
-
-<img width="600 px" src="/example/scarlet-state-machine.png"/>
-
-TODO
-
-
-Download
---------
-Scarlet is available via Maven Central.
-
-Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
-
-##### Maven:
-```xml
-<dependency>
-    <groupId>com.tinder.scarlet</groupId>
-    <artifactId>scarlet</artifactId>
-    <version>0.1.9</version>
-</dependency>
-```
-
-##### Gradle:
-```groovy
-implementation 'com.tinder.scarlet:scarlet:0.1.9'
-```
-
-### Plug-in Roadmap
-`WebSocket.Factory`
-- [x] `OkHttpClient`
-- [x] `MockHttpServer`
-
-`MessageAdapter.Factory`
-- [x] `moshi`
-- [x] `gson`
-- [x] `protobuf`
-- [x] `jackson`
-- [ ] `simple-xml`
-
-`StreamAdapter.Factory`
-- [x] `RxJava2`
-- [x] `RxJava1`
-- [x] `Kotlin Coroutine`
-
-`Lifecycle`
-- [x] `AndroidLifecycle`
-
-`BackoffStrategy`
-- [x] `Linear`
-- [x] `Exponential`
-- [x] `ExponentialWithJitter`
-
-Copyright
 ---
-~~~
-Copyright (c) 2018, Match Group, LLC
-All rights reserved.
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of Match Group, LLC nor the names of its contributors
-      may be used to endorse or promote products derived from this software
-      without specific prior written permission.
+### **Next Step: Profile README Draft**
+Here’s a **profile-level README** you can pin to highlight all 6 projects:
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL MATCH GROUP, LLC BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-~~~
+```markdown
+# Hi, I'm Muhammad 👋
 
- [gdax-websocket-feed]: https://docs.gdax.com/#websocket-feed
- [demo-app]: /demo/src/main/java/com/tinder/app
- [tutorial]: https://tech.gotinder.com/taming-websocket-with-scarlet/
- [slides]: https://speakerdeck.com/zhxnlai/taming-websocket-with-scarlet
- [kotliners]: https://www.conferenceforkotliners.com/
- [state-machine]: https://github.com/Tinder/StateMachine
- [snap]: https://oss.sonatype.org/content/repositories/snapshots/com/tinder/scarlet/
+I work on iOS app tools, sideloading solutions, and app deployment automation.  
+Here are some of my key projects:
+
+| Project | Description |
+|---------|-------------|
+| [Scarlet](https://github.com/Maibrahim30/Scarlet) | iOS app management & sideloading tool |
+| [appdp](https://github.com/Maibrahim30/appdp) | Deploy iOS apps seamlessly on devices |
+| [appdp-build-tools](https://github.com/Maibrahim30/appdp-build-tools) | Build & sign apps for deployment |
+| [AltStore](https://github.com/Maibrahim30/AltStore) | Sideload apps without jailbreak |
+| [pho-app-attest-validator](https://github.com/Maibrahim30/pho-app-attest-validator) | Server-side validator for app integrity |
+| [iReSign](https://github.com/Maibrahim30/iReSign) | Re-sign IPA files for sideloading |
+
+✨ **Let's make iOS development and deployment smoother!**
